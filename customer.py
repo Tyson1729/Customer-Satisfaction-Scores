@@ -7,30 +7,41 @@ from sklearn.pipeline import Pipeline
 from sklearn.ensemble import GradientBoostingRegressor
 
 # Load dataset
-df = pd.read_csv('customer_feedback_satisfaction.csv')
+@st.cache_data
+def load_data():
+    df = pd.read_csv('customer_feedback_satisfaction.csv')
+    return df
 
-# Define target and features
-X = df.drop(columns=['CustomerID','SatisfactionScore'])
-y = df['SatisfactionScore']
+df = load_data()
 
-# Identify categorical and numerical columns
-categorical_cols = ["Gender", "Country", "FeedbackScore", "LoyaltyLevel"]
-numerical_cols = ["Age", "Income", "ProductQuality", "ServiceQuality", "PurchaseFrequency"]
+# Train model
+@st.cache_resource
+def train_model(data):
+    # Define target and features
+    X = data.drop(columns=['CustomerID', 'SatisfactionScore'])
+    y = data['SatisfactionScore']
 
-# Preprocessing
-preprocessor = ColumnTransformer([
-    ("num", StandardScaler(), numerical_cols),
-    ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_cols)
-])
+    # Identify categorical and numerical columns
+    categorical_cols = ["Gender", "Country", "FeedbackScore", "LoyaltyLevel"]
+    numerical_cols = ["Age", "Income", "ProductQuality", "ServiceQuality", "PurchaseFrequency"]
 
-# Define model
-model = Pipeline(steps=[
-    ("preprocessor", preprocessor),
-    ("regressor", GradientBoostingRegressor())
-])
+    # Preprocessing
+    preprocessor = ColumnTransformer([
+        ("num", StandardScaler(), numerical_cols),
+        ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_cols)
+    ])
 
-# Train on full dataset
-model.fit(X, y)
+    # Define model
+    model = Pipeline(steps=[
+        ("preprocessor", preprocessor),
+        ("regressor", GradientBoostingRegressor())
+    ])
+
+    # Train on full dataset
+    model.fit(X, y)
+    return model
+
+model = train_model(df)
 
 # UI
 st.header("🔮 Predict Customer Satisfaction")
