@@ -7,7 +7,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.ensemble import GradientBoostingRegressor
 
 # Load training dataset
-df = pd.read_csv(r'C:\Users\sheew\Downloads\customer_feedback_satisfaction.csv')
+df = pd.read_csv('customer_feedback_satisfaction.csv')
 
 # Define target and features
 X = df.drop(columns=['CustomerID','SatisfactionScore'])
