@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
-data = pd.read_csv(r'C:\Users\sheew\Downloads\customer_feedback_satisfaction.csv')
+data = pd.read_csv('customer_feedback_satisfaction.csv')
 
 print("Dataset Shape:", data.shape)
 print(data.info())
