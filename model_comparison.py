@@ -11,7 +11,7 @@ from sklearn.svm import SVR
 from sklearn.neural_network import MLPRegressor
 import matplotlib.pyplot as plt
 
-data = pd.read_csv(r'C:\Users\sheew\Downloads\customer_feedback_satisfaction.csv')
+data = pd.read_csv('customer_feedback_satisfaction.csv')
 
 # Encoding categorical features
 feedback_map = {'Low': 0, 'Medium': 1, 'High': 2}
